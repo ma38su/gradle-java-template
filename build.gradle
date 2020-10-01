@@ -1,0 +1,60 @@
+plugins {
+    id 'application'
+    id 'eclipse'
+    id 'jacoco'
+}
+
+mainClassName = 'jp.ma38su.Main'
+applicationDefaultJvmArgs = [
+    "-Xmx8G",
+]
+
+group = 'jp.ma38su'
+version = '0.0.1'
+description = "Gradle Template"
+
+def jdkVersion = '1.11'
+def lombokVersion = '1.18.12'
+
+sourceCompatibility = jdkVersion
+targetCompatibility = jdkVersion
+
+def defaultEncoding = 'UTF-8'
+
+compileJava {
+	options.encoding = defaultEncoding
+}
+compileTestJava {
+	options.encoding = defaultEncoding
+}
+
+tasks.withType(JavaCompile) {
+	options.encoding = defaultEncoding
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	compileOnly "org.projectlombok:lombok:${lombokVersion}"					// MIT License
+	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"			// MIT License
+
+	testImplementation 'junit:junit:4.13'									// Eclipse Public License 1.0
+	testCompileOnly "org.projectlombok:lombok:${lombokVersion}"				// The MIT License
+	testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"		// The MIT License
+}
+
+jar {
+    manifest {
+        attributes provider: 'gradle'
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.enabled true
+    }
+}
